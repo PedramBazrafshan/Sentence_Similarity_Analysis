@@ -4,7 +4,7 @@
 
 ### **Overview**
 ---
-This is the official repository of the Research Manuscript _Performance analysis of pre-trained visual language models in describing images within the civil engineering domain: a case study of visual ChatGPT-4_ by Kris Melag et al.
+This is the official repository of the Research Manuscript _Semantic and Lexical Analysis of Pre-Trained Visual Language Models for Automated Image Descriptions in Civil Engineering_ by Kris Melag et al.
 
 
 ### **Get Started**
