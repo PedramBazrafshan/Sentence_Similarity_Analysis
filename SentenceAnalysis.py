@@ -1,3 +1,6 @@
+
+
+
 """Code developed and presented by Pedram Bazrafshan"""
 
 
@@ -7,8 +10,11 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 import nltk
 import torch
-
-nltk.download('punkt')  # Ensure the Punkt tokenizer models are downloaded
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from nltk.translate.meteor_score import meteor_score
+from rouge_score import rouge_scorer
+# import tqdm, trange
+# nltk.download('punkt')  # Ensure the Punkt tokenizer models are downloaded
 
 # Check if GPU is available and set device accordingly
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -18,17 +24,21 @@ print("Using device:", device)
 file_path = r"SentenceSimScore.xlsx"
 
 # Read from the specified sheet
-df = pd.read_excel(file_path, sheet_name='Human 1 - Online - Data', usecols=[0, 1], header=0)
+"""
+For the Private dataset, switch 'Online - Data' with 'Private - Data'
+To use different human annotators, use different usecols=[0, 1]
+"""
+df = pd.read_excel(file_path, sheet_name='Online - Data', usecols=[0, 1], header=0)
 
 # Models for similarity calculation
-models = ["distilbert-base-nli-mean-tokens", "bert-base-uncased", "all-MiniLM-L12-v2", 
-          "multi-qa-MiniLM-L6-cos-v1", "paraphrase-multilingual-mpnet-base-v2", 
+models = ["distilbert-base-nli-mean-tokens", "bert-base-uncased",
+          "multi-qa-mpnet-base-dot-v1", "paraphrase-multilingual-mpnet-base-v2", 
           "paraphrase-multilingual-MiniLM-L12-v2"]
 
 all_results = []
 
 # Define the maximum row index to process
-max_row_index = 70
+max_row_index = 82
 
 # Iterate through each row in the DataFrame
 for index, row in df.iterrows():
@@ -58,7 +68,7 @@ for index, row in df.iterrows():
             
 
 # Create DataFrame from the results
-column_names = ['Row Number', 'Sentence1', 'Sentence2'] + models + ['IoU']
+column_names = ['Row Number', 'Sentence1', 'Sentence2'] + models
 results_df = pd.DataFrame(all_results, columns=column_names)
 
 # Use ExcelWriter to write to a specific sheet

@@ -1,3 +1,5 @@
+
+
 """Code developed and presented by Pedram Bazrafshan"""
 
 
@@ -9,9 +11,9 @@ file_path = r"SentenceSimScore.xlsx"
 # Read from the specified sheet
 df = pd.read_excel(file_path, sheet_name='Human 1 - Online - Score', header=0)
 
-# Assuming the first column is the group number and we need to calculate the max from columns D to S
+# Assuming the first column is the group number and we need to calculate the max from columns D to H
 group_column = df.columns[0]  # First column (Group number)
-columns_to_max = df.columns[3:19]  # Columns D to S
+columns_to_max = df.columns[3:8]  # Columns D to H
 
 # Group by the group number and calculate the max for each group
 max_values = df.groupby(group_column)[columns_to_max].max()

@@ -1,3 +1,5 @@
+
+
 """Code developed and presented by Pedram Bazrafshan"""
 
 
@@ -6,6 +8,14 @@ from sentence_transformers import SentenceTransformer
 import pandas as pd
 from openpyxl import load_workbook
 import torch
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from nltk.translate.meteor_score import meteor_score
+from rouge_score import rouge_scorer
+# import nltk
+
+# # Download necessary NLTK resources
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
 
 # Check if GPU is available and set device accordingly
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -15,18 +25,22 @@ print("Using device:", device)
 file_path = r"DescriptionSimScore.xlsx"
 
 # Read from the specified sheet
-df = pd.read_excel(file_path, sheet_name='Human 1 - Online - Data', usecols=[0, 1], header=0)
+"""
+For the Private dataset, switch 'Online - Data' with 'Private - Data'
+To use different human annotators, use different usecols=[0, 1]
+"""
+df = pd.read_excel(file_path, sheet_name='Online - Data', usecols=[0, 1], header=0)
 
 # Models for similarity calculation
-Models = ["distilbert-base-nli-mean-tokens", "bert-base-uncased", "all-MiniLM-L12-v2", 
-          "multi-qa-MiniLM-L6-cos-v1", "paraphrase-multilingual-mpnet-base-v2", 
+Models = ["distilbert-base-nli-mean-tokens", "bert-base-uncased",
+          "multi-qa-mpnet-base-dot-v1", "paraphrase-multilingual-mpnet-base-v2", 
           "paraphrase-multilingual-MiniLM-L12-v2"]
 
 
 results = []
 
 # Define the maximum row index to process
-max_row_index = 70
+max_row_index = 82
 
 # Iterate through each row in the DataFrame
 for index, row in df.iterrows():
@@ -50,7 +64,7 @@ for index, row in df.iterrows():
 
 
 # Column letters for Excel (B, D, F, ...)
-excel_columns = ['B', 'C', 'D', 'E', 'F', 'G']
+excel_columns = ['B', 'C', 'D', 'E', 'F']
 
 # Load workbook and sheet
 workbook = load_workbook(file_path)
