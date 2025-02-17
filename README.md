@@ -4,7 +4,7 @@
 
 ### **Overview**
 ---
-This is the official repository of the Research Manuscript _Semantic and Lexical Analysis of Pre-Trained Visual Language Models for Automated Image Descriptions in Civil Engineering_ by Kris Melag et al.
+This is the official repository of the Research Manuscript _Semantic and Lexical Analysis of Pre-Trained Vision Language Artificial Intelligence Models for Automated Image Descriptions in Civil Engineering_ by Pedram Bazrafshan et al.
 
 
 ### **Get Started**
